@@ -1,0 +1,40 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="/">MARKET</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse justify-content-between" id="navbarNavDropdown">
+    <ul class="navbar-nav">
+      <% Category.order(:position).each do |category| %>
+        <li class="nav-item">
+          <a class="nav-link <%= params[:category_id].to_i == category.id ? "active" : ""%>" href="<%= items_path(category_id: category.id)%>"><%= category.title %></a>
+        </li>
+      <% end %>
+
+      <% if current_user %>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          마이페이지
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" href="<%= new_order_path %>">장바구니</a>
+          <a class="dropdown-item" href="<%= orders_path %>">내 주문</a> 
+          <a class="dropdown-item" href="<%= items_path(type: :selling) %>">나의 상품</a>
+          <a class="dropdown-item" href="<%= user_items_path %>">나의 찜</a>
+          <a class="dropdown-item" href="<%= edit_user_registration_path(current_user)%>">회원 정보 수정</a>
+        </div>
+      </li>
+      <li class="nav-item">
+        <%= link_to "로그아웃", destroy_user_session_path, method: :delete, class: "nav-link"%>
+      </li>
+      <% else %>
+        <li class="nav-item">
+          <a class="nav-link" href="<%= new_user_session_path %>">로그인</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="<%= new_user_registration_path %>">회원가입</a>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</nav>

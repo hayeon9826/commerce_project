@@ -1,0 +1,31 @@
+<div class="container my-5">
+  <div class="mb-5">
+      <h2>상품 상세</h2><hr>
+  </div>
+  <div class="row">
+    <div class="col-md-4">
+      <%= image_tag @item.image.url, class: "img-thumbnail img-fluid"%>
+    </div>
+    <div class="col-md-8 border p-5">
+      <h4><%= @item.title %></h4>
+      <p><%= number_with_delimiter @item.price %>원</p>
+      <% if current_user %>
+        <%= link_to current_user.user_items.where(item: @item).present? ? "찜 취소" : "찜하기", toggle_item_path(@item), class: current_user.user_items.where(item: @item).present? ? "btn btn-danger" : "btn btn-primary"%>
+        <%= link_to "장바구니 담기", edit_item_path(@item), class: "btn btn-secondary"%>
+        <!-- edit 액션 대신에 add나 orders 컨트롤러 액션을 사용할 수 있으나 items 라우팅 활용 -->
+      <% else %>
+        <%= link_to "찜하기", new_user_session_path(notice: "찜하기는 로그인이 필요합니다"), class: "btn btn-primary"%>
+        <%= link_to "장바구니 담기", new_user_session_path(notice: "구매는 로그인이 필요합니다"), class: "btn btn-secondary"%>
+      <% end %>
+    </div>
+  </div>
+  <div class="row mt-5">
+    <div class="col-12">
+      <%= @item.description%>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(".alert").fadeOut(2500);
+</script>

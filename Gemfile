@@ -6,7 +6,8 @@ ruby '2.6.5'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '6.0.0'
 # Use sqlite3 as the database for Active Record
-gem 'sqlite3'
+# gem 'sqlite3'
+gem 'pg', '~> 0.18.4'
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
 # Use SCSS for stylesheets
@@ -29,6 +30,31 @@ gem 'jbuilder', '~> 2.5'
 
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
+# 로그인/회원가입
+gem 'devise'
+
+# 로그인/회원가입 문구 다국어 자동 설정
+gem 'devise-i18n'
+
+# 어드민
+gem 'activeadmin'
+
+# bootstrap - 반응형 웹 템플릿
+gem 'bootstrap', '~> 4.3.1'
+
+# jquery - 자바스크립트 라이브러리
+gem 'jquery-rails'
+
+# fontawesome - 아이콘 라이브러리
+gem 'font-awesome-rails'
+
+# 레일스 다국어 자동 설정
+gem 'rails-i18n'
+
+# 파일 또는 이미지 첨부
+gem 'carrierwave'
+gem 'mini_magick'
+gem 'kaminari'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

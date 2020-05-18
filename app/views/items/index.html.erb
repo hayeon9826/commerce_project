@@ -1,0 +1,41 @@
+<div class="container my-5">
+  <div class="mb-5">
+    <% if params[:type] == "selling" %>
+      <h2>나의 상품</h2>
+    <% else %>
+      <h2><%= params[:category_id].present? ? Category.find(params[:category_id]).title : "상품 전체"%></h2><hr>
+    <% end %>
+  </div>
+  <div class="row">
+    <% if @items.present? %>
+      <% @items.each do |p| %>
+      <div class="card-deck col-md-3 mt-5 mb-5">
+        <div class="card">
+          <img src="<%= p.image.url %>" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title"><%= p.title%></h5>
+            <p class="card-text"><%= p.price %>원 <br>
+              <small class="card-subtitle">판매자: <%= p.user&.email.truncate(25)%></small>
+            </p>
+            <p class="card-text"><%= p.description.truncate(30) %></p>
+          </div>
+          <div class="card-footer">
+            <%=link_to "자세히 보기", item_path(p.id), class: "btn btn-primary btn-sm"%>
+            <% if p.user == current_user %>
+              <%= link_to "수정", edit_item_path(p), class: "btn btn-secondary btn-sm" %>
+              <%= link_to "삭제", item_path(p), method: :delete, data: {confirm: "정말로 삭제하시겠습니까?"}, class: "btn btn-danger btn-sm" %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <% end %>
+    <% else %>
+    <div class="col-md-12">
+      <div class="card p-4">
+        등록된 상품이 없습니다.
+      </div>
+    </div>
+    <% end %>
+  </div>
+  <%= paginate @items %>
+</div>

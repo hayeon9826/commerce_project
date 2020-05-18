@@ -1,0 +1,26 @@
+<div class="container my-5">
+  <div class="mb-5">
+    <h2>결제 내역</h2>
+  </div>
+  <div class="row">
+    <div class="col">
+      <% @orders.order(created_at: :desc).each do |order|%>
+      <div class="card p-5 mb-3">
+        <h5>주문날짜: <%= order.created_at.strftime("%Y-%m-%d")%></h5><br>
+        <% order.line_items.each do |line_item| %>
+          <% if item = line_item.item %>
+            <%= line_item.item.title %> (<%= number_with_delimiter (line_item.price) %> 원 * <%= line_item.amount %> 개)<BR>
+          <% else %>
+            삭제된 상품 입니다.
+          <% end %>
+        <% end %>
+        <hr>
+        <%= number_with_delimiter order.total %>원
+      </div>
+      <% end %>
+      <p>
+      <%= paginate @orders %>
+      </p>
+    </div>
+  </div>
+</div>

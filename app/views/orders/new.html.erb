@@ -1,0 +1,33 @@
+<div class="container my-5">
+  <div class="mb-5">
+    <h2>장바구니</h2>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <%= form_for @order do |f| %>
+        <% if @order.line_items.present? %>
+          <% @order.line_items.each do |line_item| %>
+            <div class="card p-4 mb-3">
+              <div>
+                <%= line_item.item.title %> <%= line_item.amount %>개
+                <span class="float-right"><%= link_to "삭제", order_item_delete_path(order_id: @order.id, item_id: line_item.item.id), class: "btn btn-danger"%></span>
+              </div>
+            </div>
+          <% end %>
+        <p>총금액: <%= number_with_delimiter @order.total %> 원</p>
+        <% else %>
+          <div class="card p-4">
+            등록된 상품이 없습니다.
+          </div>
+        <% end %><hr>
+        <%= f.submit "주문하기", class: "btn btn-primary btn-lg float-right"%>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+
+<!--form_for은 항상 update나 create인데, 없는 데이터면 create액션, 있는 데이터면 update-->
+<script>
+  $(".alert").fadeOut(3000);
+</script>

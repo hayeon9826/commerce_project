@@ -1,0 +1,15 @@
+<div class="container my-5">
+  <div class="mb-5">
+    <h2>주문 내역</h2>
+  </div>
+  <div class="row">
+    <div class="col">
+      <div class="card p-4">
+        <% @order.line_items.each do |p| %>
+          <%= p.item.title %> <%= p.amount %> 개
+        <% end %>
+      </div><hr>
+      <p>총금액: <%= number_with_delimiter @order.total %> 원</p>
+    </div>
+  </div>
+</div>
