@@ -4,24 +4,29 @@
   </div>
   <div class="row">
     <div class="col-md-12">
-      <%= form_for @order do |f| %>
-        <% if @order.line_items.present? %>
-          <% @order.line_items.each do |line_item| %>
-            <div class="card p-4 mb-3">
-              <div>
-                <%= line_item.item.title %> <%= line_item.amount %>개
-                <span class="float-right"><%= link_to "삭제", order_item_delete_path(order_id: @order.id, item_id: line_item.item.id), class: "btn btn-danger"%></span>
+      <% if @order.line_items.present? %>
+        <% @order.line_items.each do |line_item| %>
+          <div class="card p-4 mb-3 order-items">
+            <div class="row">
+              <div class="col-md-2">
+                <%= image_tag(line_item.item.image_url, style: "width: 100px") %>
+              </div>
+              <div class="col-md-4">
+                 <b><%= line_item.item.title %></b> (<%= line_item.amount %>개)
+              </div>
+              <div class="col-md-6">
+                <span class="float-right"><%= link_to "삭제", order_item_delete_path(order_id: @order.id, item_id: line_item.item.id), class: "btn btn-danger" %></span>
               </div>
             </div>
-          <% end %>
-        <p>총금액: <%= number_with_delimiter @order.total %> 원</p>
-        <% else %>
-          <div class="card p-4">
-            등록된 상품이 없습니다.
           </div>
-        <% end %><hr>
-        <%= f.submit "주문하기", class: "btn btn-primary btn-lg float-right"%>
-      <% end %>
+        <% end %>
+      <p class="mt-5">총 금액: <%= number_with_delimiter @order.total %> 원</p>
+      <% else %>
+        <div class="card p-4">
+          등록된 상품이 없습니다.
+        </div>
+      <% end %><hr>
+      <%= link_to "주문하기", edit_order_path(@order), class: "btn btn-primary btn-lg float-right submit" %>
     </div>
   </div>
 </div>
@@ -29,5 +34,15 @@
 
 <!--form_for은 항상 update나 create인데, 없는 데이터면 create액션, 있는 데이터면 update-->
 <script>
+
   $(".alert").fadeOut(3000);
+
+  $('.submit').on('click', function(){
+    if($('.order-items').length == 0){
+      $('.submit').attr('href', '#');
+      alert("담은 상품이 없습니다.")
+    }else{
+      $('.submit').attr('href', '<%= edit_order_path(@order) %>');
+    }
+  })
 </script>

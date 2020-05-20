@@ -1,7 +1,11 @@
 class Item < ApplicationRecord
   belongs_to :user, optional: true
   belongs_to :category, optional: true
+
+  #order에 있던 아이템은 아이템 없어지면 nullify
   has_many :line_items, dependent: :nullify
+  #찜은 아이템 없어지면 없어짐
+  has_many :user_items, dependent: :destroy
 
   mount_uploader :image, ImageUploader
 

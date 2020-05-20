@@ -7,10 +7,9 @@
     <ul class="navbar-nav">
       <% Category.order(:position).each do |category| %>
         <li class="nav-item">
-          <a class="nav-link <%= params[:category_id].to_i == category.id ? "active" : ""%>" href="<%= items_path(category_id: category.id)%>"><%= category.title %></a>
+          <a class="nav-link <%= params[:category_id].to_i == category.id ? "active" : "" %>" href="<%= items_path(category_id: category.id)%>"><%= category.title %></a>
         </li>
       <% end %>
-
       <% if current_user %>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -18,7 +17,7 @@
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
           <a class="dropdown-item" href="<%= new_order_path %>">장바구니</a>
-          <a class="dropdown-item" href="<%= orders_path %>">내 주문</a> 
+          <a class="dropdown-item" href="<%= orders_path %>">내 주문</a>
           <a class="dropdown-item" href="<%= items_path(type: :selling) %>">나의 상품</a>
           <a class="dropdown-item" href="<%= user_items_path %>">나의 찜</a>
           <a class="dropdown-item" href="<%= edit_user_registration_path(current_user)%>">회원 정보 수정</a>

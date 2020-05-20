@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   resources :items do
     member do
       get :toggle
+      get :add #장바구니 담기
     end
   end
 

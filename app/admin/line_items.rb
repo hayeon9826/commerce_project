@@ -1,11 +1,11 @@
 ActiveAdmin.register LineItem do
-
+  menu parent: "주문 관리"
   # See permitted parameters documentation:
   # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
   #
   # Uncomment all parameters which should be permitted for assignment
   #
-  # permit_params :order_id, :item_id, :amount, :price
+  permit_params :order_id, :item_id, :amount, :price
   #
   # or
   #
@@ -14,5 +14,5 @@ ActiveAdmin.register LineItem do
   #   permitted << :other if params[:action] == 'create' && current_user.admin?
   #   permitted
   # end
-  
+
 end

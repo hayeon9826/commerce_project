@@ -1,40 +1,57 @@
 <div class="container my-5">
-  <div class="mb-5">
-    <% if params[:type] == "selling" %>
-      <h2>나의 상품</h2>
-    <% else %>
-      <h2><%= params[:category_id].present? ? Category.find(params[:category_id]).title : "상품 전체"%></h2><hr>
-    <% end %>
+  <div class="row">
+    <div class="col-12 mb-2">
+      <% if params[:type] == "selling" %>
+        <h2>나의 상품</h2><hr>
+      <% else %>
+        <h2><%= params[:category_id].present? ? Category.find(params[:category_id]).title : "상품 전체" %></h2><hr>
+          <%= form_tag request.parameters, method: :get do %>
+          <div class="form-inline float-left">
+            <%= text_field_tag :q, params[:q], class: "form-control mr-2" %>
+            <%= submit_tag "검색", class: "btn btn-primary mr-1" %>
+          </div>
+          <div class="float-right">
+            <div class="btn-group">
+              <%= link_to "가격순", request.parameters.merge(order: :price), class: "btn-sm btn btn-#{params[:order].present? ? "secondary" : "outline-secondary"}" %>
+              <%= link_to "등록순", request.parameters.merge(order: nil), class: "btn-sm btn btn-#{params[:order].blank? ? "secondary" : "outline-secondary"}" %>
+            </div>
+            <%= link_to "상품등록", current_user ? new_item_path : new_user_session_path, class: "btn-sm ml-2 btn btn-primary float-right" %>
+          </div>
+        <% end %>
+      <% end %>
   </div>
+</div>
   <div class="row">
     <% if @items.present? %>
-      <% @items.each do |p| %>
-      <div class="card-deck col-md-3 mt-5 mb-5">
-        <div class="card">
-          <img src="<%= p.image.url %>" class="card-img-top" alt="...">
-          <div class="card-body">
-            <h5 class="card-title"><%= p.title%></h5>
-            <p class="card-text"><%= p.price %>원 <br>
-              <small class="card-subtitle">판매자: <%= p.user&.email.truncate(25)%></small>
-            </p>
-            <p class="card-text"><%= p.description.truncate(30) %></p>
-          </div>
-          <div class="card-footer">
-            <%=link_to "자세히 보기", item_path(p.id), class: "btn btn-primary btn-sm"%>
-            <% if p.user == current_user %>
-              <%= link_to "수정", edit_item_path(p), class: "btn btn-secondary btn-sm" %>
-              <%= link_to "삭제", item_path(p), method: :delete, data: {confirm: "정말로 삭제하시겠습니까?"}, class: "btn btn-danger btn-sm" %>
-            <% end %>
+      <% @items.order(created_at: :desc).each do |p| %>
+        <div class="card-deck col-md-3 mt-5 mb-5">
+          <div class="card">
+            <img src="<%= p.image_url(:thumb) %>" class="card-img-top" alt="..." style="">
+            <div class="card-body">
+              <h5 class="card-title"><%= p.title %></h5>
+              <p class="card-text"><%= p.price %>원
+                <br>
+                <small class="card-subtitle">판매자:
+                  <%= p.user&.email.truncate(25) %></small>
+              </p>
+              <p class="card-text"><%= p.description.truncate(30) %></p>
+            </div>
+            <div class="card-footer">
+              <%=link_to "자세히 보기", item_path(p.id), class: "btn btn-primary btn-sm"%>
+              <% if p.user == current_user %>
+                <%= link_to "수정", edit_item_path(p), class: "btn btn-secondary btn-sm" %>
+                <%= link_to "삭제", p, method: :delete, data: {confirm: "정말로 삭제하시겠습니까?"}, class: "btn btn-danger btn-sm" %>
+              <% end %>
+            </div>
           </div>
         </div>
-      </div>
       <% end %>
     <% else %>
-    <div class="col-md-12">
-      <div class="card p-4">
-        등록된 상품이 없습니다.
+      <div class="col-md-12 mt-5 mb-5">
+        <div class="card p-4">
+          등록된 상품이 없습니다.
+        </div>
       </div>
-    </div>
     <% end %>
   </div>
   <%= paginate @items %>

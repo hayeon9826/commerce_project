@@ -25,6 +25,8 @@ ActiveAdmin.setup do |config|
   config.before_action do
     params.permit!
   end
+
+
   #
   # eg:
   #   config.default_namespace = :hello_world
@@ -120,7 +122,7 @@ ActiveAdmin.setup do |config|
   # roots for each namespace.
   #
   # Default:
-  # config.root_to = 'dashboard#index'
+  config.root_to = 'users#index'
 
   # == Admin Comments
   #

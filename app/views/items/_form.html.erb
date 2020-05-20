@@ -1,0 +1,31 @@
+<%= form_for(@item) do |f| %>
+  <div class="form-group">
+    <%= f.label :title %><br/>
+    <%= f.text_field :title, autofocus: true, required: true, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :price %><br/>
+    <%= f.text_field :price, autofocus: true, required: true, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :description %><br/>
+    <%= f.text_area :description, required: true, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :category_id %><br/>
+    <%= f.select :category_id, options_for_select(Category.order(:position).map {|category| [category.title, category.id]}), required: true, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :image %><br/>
+    <%= f.file_field :image, required: true, class: "form-control" %>
+  </div>
+
+  <div class="actions">
+    <%= f.hidden_field :user_id, value: current_user.id %>
+    <%= f.submit "상품 등록", class: "btn btn-primary btn-block" %>
+  </div>
+<% end %>

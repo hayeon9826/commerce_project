@@ -1,15 +1,30 @@
 <div class="container my-5">
   <div class="mb-5">
-    <h2>주문 내역</h2>
+    <h2>주문 완료</h2>
   </div>
   <div class="row">
     <div class="col">
       <div class="card p-4">
+        <h3>상품 상세</h3>
         <% @order.line_items.each do |p| %>
-          <%= p.item.title %> <%= p.amount %> 개
+          <% if p.item.present? %>
+            <%= p.item.title %> (<%= number_with_delimiter (p.item.price) %> 원 * <%= p.amount %> 개)<BR>
+          <% else %>
+            삭제된 상품입니다 (<%= p.amount %> 개)<br>
+            <% end %>
         <% end %>
-      </div><hr>
+      </div>
+      <div class="card p-4 mt-4">
+        <h3>배송지 정보</h3>
+        <ul>
+          <li>우편번호: <%= @order.zipcode %></li>
+          <li>기본주소: <%= @order.address1 %></li>
+          <li>상세주소: <%= @order.address2 %></li>
+        </ul>
+      </div>
+      <hr>
       <p>총금액: <%= number_with_delimiter @order.total %> 원</p>
+      <%= link_to "뒤로가기", :back, class: "btn btn-secondary float-right" %>
     </div>
   </div>
 </div>

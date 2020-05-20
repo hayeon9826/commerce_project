@@ -5,21 +5,29 @@
   <div class="row">
     <div class="col">
       <% @orders.order(created_at: :desc).each do |order|%>
-      <div class="card p-5 mb-3">
-        <h5>주문날짜: <%= order.created_at.strftime("%Y-%m-%d")%></h5><br>
-        <% order.line_items.each do |line_item| %>
-          <% if item = line_item.item %>
-            <%= line_item.item.title %> (<%= number_with_delimiter (line_item.price) %> 원 * <%= line_item.amount %> 개)<BR>
-          <% else %>
-            삭제된 상품 입니다.
+        <div class="card p-5 mb-3">
+          <h5>주문날짜:
+            <%= order.created_at.strftime("%Y-%m-%d") %></h5><br>
+          <% order.line_items.each do |line_item| %>
+            <% if item = line_item.item %>
+              <%= line_item.item.title %>
+              (<%= number_with_delimiter (line_item.price) %>
+              원 *
+              <%= line_item.amount %>
+              개)<br>
+            <% else %>
+              삭제된 상품 입니다.
+            <% end %>
           <% end %>
-        <% end %>
-        <hr>
-        <%= number_with_delimiter order.total %>원
-      </div>
+          <hr>
+          <%= number_with_delimiter order.total %>원
+          <div>
+            <%= link_to "주문내역 보기", order_path(order.id), class: "btn-xs btn btn-primary float-right" %>
+          </div>
+        </div>
       <% end %>
-      <p>
-      <%= paginate @orders %>
+      <p class="mt-5">
+        <%= paginate @orders %>
       </p>
     </div>
   </div>
